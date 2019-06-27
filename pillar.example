@@ -1,0 +1,19 @@
+hubble:
+  config_dir: /etc/hubble
+  #Contents of config_dir/grains
+  grains:
+    checks:
+      - default
+  #Contents of config_dir/hubble
+  config:
+    gitfs_remotes:
+      - https://github.com/hubblestack/hubblestack_data.git
+    fileserver_backend:
+      - roots
+      - git
+  #This directory is checked out into /etc/hubble unless it already exists
+  #For seeding some custom file_roots yamls on a hubble client
+  custom_git_seed: https://github.com/craftypenguins/hubble_custom_data
+  #Git checkout destination, relative to config_dir
+  custom_git_name: hubble_custom_data
+

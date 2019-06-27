@@ -1,0 +1,11 @@
+hubble:
+  config_dir: /etc/hubble
+  grains:
+    checks:
+      - default
+  config:
+    gitfs_remotes:
+      - https://github.com/hubblestack/hubblestack_data.git
+    fileserver_backend:
+      - roots
+      - git

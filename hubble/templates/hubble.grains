@@ -1,0 +1,39 @@
+{%- from "hubble/map.jinja" import hubble with context %}
+# THIS FILE IS MANAGED BY SALT
+
+{%- macro spaces(i) %}
+{%- for n in range(i) %}
+{{- '  ' }}
+{%- endfor %}
+{%- endmacro -%}
+
+{%- macro indent(value, i=-1) %}
+{#- {{ i }}{{ ' ' }}{{ value }} #}
+  {%- if value is mapping -%}
+    {%- for name, nested_value in value.items() %}
+      {%- if nested_value is not mapping and ( nested_value is not iterable or nested_value is string ) %}
+{{ spaces(i) }}{{ name }}: {{ nested_value }}
+      {%- else %}
+{{ spaces(i) }}{{ name }}:
+{{- indent(nested_value, i+1) }}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- elif value is not string %}
+    {%- if value[0] is string and value[1] is defined and value[1] is not string %}
+{{ spaces(i) }}{{ value[0] }}:
+{{- indent(value[1], i+1) }}
+    {%- else %}
+      {%- for nested_value in value %}
+        {%- if nested_value is not string and value is iterable %}
+{{- indent(nested_value, i+1) }}
+        {%- else %}
+{{- indent(nested_value, i) }}
+        {%- endif %}
+      {%- endfor %}
+    {%- endif %}
+  {%- else %}
+{{ spaces(i) }}- {{ value }}
+  {%- endif %}
+{%- endmacro %}
+
+{{ indent(hubble.grains|dictsort) }}
