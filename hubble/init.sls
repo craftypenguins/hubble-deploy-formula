@@ -27,6 +27,10 @@ hubble_custom_seed:
    git.latest:
     - name: {{ hubble.custom_git_seed }}
     - target: {{ hubble.config_dir }}/{{ hubble.custom_git_name }}
+{% else %}
+hubble_custom_seed:
+   file.exists:
+    - name: {{ hubble.config_dir }}/{{ hubble.custom_git_name }}
 {% endif %}
 
 hubble_service:
